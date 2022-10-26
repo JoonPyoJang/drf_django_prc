@@ -6,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from articles.models import Article
 from rest_framework.views import APIView
 from articles.seriallzers import ArticleSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 
 class articleAPI(APIView):
@@ -14,6 +14,8 @@ class articleAPI(APIView):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
+
+    @swagger_auto_schema(request_body = ArticleSerializer)
     def post(self, request, format=None):
         serializer = ArticleSerializer(data = request.data)
         if serializer.is_valid():
